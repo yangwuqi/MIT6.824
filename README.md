@@ -11,3 +11,5 @@ The original 6.824 documents are here: https://pdos.csail.mit.edu/6.824/index.ht
 The git clone code for 6.824 is: git clone git://g.csail.mit.edu/6.824-golabs-2018 6.824
 
 //Since the 6.824 documents has already been translated by others, I decide to translate the annotations in the source code.
+
+There might be faults about the package mapreduce itself when using goland to open the codes in mapreduce package, I used import "../mapreduce" to solve it.
