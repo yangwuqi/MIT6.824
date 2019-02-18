@@ -12,4 +12,4 @@ The git clone code for 6.824 is: git clone git://g.csail.mit.edu/6.824-golabs-20
 
 //Since the 6.824 documents has already been translated by others, I decide to translate the annotations in the source code.
 
-There might be faults about the package mapreduce itself when using goland to open the codes in mapreduce package, I used import "../mapreduce" to solve it.
+Remember to add the GO PATH of mapreduce package for avoiding faults about the package PATH when using Goland.
