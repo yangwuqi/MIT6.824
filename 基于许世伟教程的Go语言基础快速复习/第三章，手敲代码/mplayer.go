@@ -47,7 +47,7 @@ func handlePlayCommand(tokens []string){
 		fmt.Println("这个曲目不存在！")
 		return
 	}
-	mp.Play(e.Source,e.Type)
+	mp.Play(e.Source,e.Type)//这个地方原书代码写错了，多加了两个函数参数
 }
 func main(){
 	fmt.Println("请输入指令来控制播放器，指令第一个是lib，则后面可以是 list, add+歌曲信息（5项）, remove+歌曲下标编号, 指令第一个是play，则后面是 歌曲名，输入e或者q退出")
