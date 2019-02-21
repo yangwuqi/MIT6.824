@@ -2,8 +2,8 @@ package library
 
 import "errors"
 
-type MusicEntry struct {
-	Name string
+type MusicEntry struct {//原书的这个结构体里的第一个元素是Id也就是歌曲编号，实际上原书的这个设定很有问题，
+	Name string	//因为按编号删除非最后一个元素会导致编号混乱，直接用slice的元素下标作为编号就行了
 	Artist string
 	Style string
 	Source string
