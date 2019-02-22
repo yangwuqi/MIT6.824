@@ -1,0 +1,3 @@
+第四章复习的知识点包括 goroutine，channel，sync中的唯一性Mutex锁和单写多读RWMutex锁和一次性Once类型，runtime基本用法等等
+
+原书代码有个问题没改，client和server之间没有确实的通信，logout指令无效，我现在赶着去学校今天下午这个就不改了，先这样，能跑
