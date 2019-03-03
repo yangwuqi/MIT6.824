@@ -640,7 +640,7 @@ BEGIN:
 								}else{
 									//fmt.Printf("本机term是%d，对方term是%d，args.Append %v, args.voteMSG %v，编号为%d的raft实例的投票请求被编号为%d的raft实例拒绝啦！现在有%d票。本机rf.last_log_term是%d，rf.last_term_log_lenth是%d，对方rf.last_log_term是%d，rf.last_term_log_lenth是%d，对方reply.voted==%v\n",rf.term,reply.Term,args.Append,args.Votemsg,rf.me,i,votes,rf.Last_log_term,rf.last_term_log_lenth,reply.Last_log_term,reply.Last_log_lenth,reply.Voted)
 									if rf.term<reply.Term&&reply.You_are_true{//!!!!!!!!!!!!!!!
-										rf.term=reply.Term+6//!!!!!!!!!!!!!!这里多加点
+										rf.term=reply.Term+6//!!!!!!!!!!!!!!这里多加点，测试程序的服务器最多是五个，这里应该可以证明+的要大于等于5，是个分区相关的不同机器之间的term问题
 									}//!!!!!!!!!!!!!!
 							}
 							case <-time.After(time.Duration(10) * time.Millisecond):
