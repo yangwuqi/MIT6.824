@@ -16,8 +16,7 @@ package raft
 //   should send an ApplyMsg to the service (or tester)
 //   in the same server.
 //
-//现在剩下的最大的问题是commit的问题，如果3个节点，老leader被分区隔离，一个新leader向自己和另一个节点复制了log，得知2个节点也就是大多数复制之后，他发起commit，这时候老leader刚刚被分区恢复，然后变成follower，但是老leader上没有正确的log，就收到了commit命令，这怎么解决
-//我现在的想法是，每次commit命令的时候append也是true，这样服务器自行检查，如果自己的log不对，就请求通过Second来获得正确的并commit，如果自己的log是正确的，直接commit
+
 import "sync"
 import (
 	"../labrpc"
