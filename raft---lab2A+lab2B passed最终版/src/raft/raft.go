@@ -822,5 +822,5 @@ func(rf *Raft)running(){
 	}
 }
 
-//我的实现中有一个死锁情况是这样的，A的term比B新，但是log比B旧，leader被挂掉，然后A和B竞选leader，我的解决办法方案1是让log更加新的那个的term粗暴地+6，
+//我的实现中有一个死锁情况是这样的，A的term比B新，但是log比B旧，leader C被挂掉，然后A和B竞选leader，我的解决办法方案1是让log更加新的那个的term粗暴地+6，
 //方案2是在requestVote函数开头就进行判断，如果请求投票的节点的log比较新但是term比较旧，就把被请求节点的term降到和请求节点一样，推理可知这种方案更优，因为粗暴+6之后那个之前log旧但是term新的节点还是可以被分区到term又最新了再回归，这样就还是死锁
