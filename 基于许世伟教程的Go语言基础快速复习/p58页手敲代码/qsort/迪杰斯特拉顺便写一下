@@ -36,14 +36,7 @@ func mainnn(){
 		fmt.Printf("%v\n",shortTablePath[i])
 	}
 }
-func shorter(v,x int,graph [9][9]int,shortTablePath [9]int){
-	if graph[v][x] < MAXWEIGHT { //说明相连，看看更不更新
-		if graph[v][x]+shortTablePath[v] < shortTablePath[x] {
-			shortTablePath[x] = graph[v][x] + shortTablePath[v]
-		}
-		fmt.Printf("更新为%v\n", shortTablePath)
-	}
-}
+
 func NewGraph()[9][9]int{
 	var graph [9][9]int
 	v0:=[9]int{0,1,5,MAXVEX,MAXVEX,MAXVEX,MAXVEX,MAXVEX,MAXVEX}
