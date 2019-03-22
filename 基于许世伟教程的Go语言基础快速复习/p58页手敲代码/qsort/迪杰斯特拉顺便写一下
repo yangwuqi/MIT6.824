@@ -1,0 +1,68 @@
+package raft
+
+import "fmt"
+
+const MAXVEX int=1000
+const MAXWEIGHT int=1000
+func mainnn(){
+	var shortTablePath=[9]int{MAXWEIGHT,MAXWEIGHT,MAXWEIGHT,MAXWEIGHT,MAXWEIGHT,MAXWEIGHT,MAXWEIGHT,MAXWEIGHT,MAXWEIGHT}
+	//初始化的时候，每一个节点到源节点的初始路径长度都是无穷大
+	graph:=NewGraph()
+
+	//var TablePathMin int
+	var Vx int
+	var isgetPath [MAXVEX]bool
+	for v:=0;v<len(graph);v++{
+		shortTablePath[v]=graph[0][v]
+	}
+	shortTablePath[0]=0
+	isgetPath[0]=true
+	for i:=1;i<len(graph);i++{
+		min:=MAXWEIGHT
+		for j:=0;j<len(graph);j++{
+			if shortTablePath[j]<min&&isgetPath[j]!=true{//找到距离0最近的且还没被试过的那个
+				Vx=j
+				min=shortTablePath[j]
+			}
+		}
+		isgetPath[Vx]=true//找到这个最小的之后，设个标志表示已经用过
+		for k:=0;k<len(graph);k++{//基于这个最小的节点，更新与这个节点连接的节点到源节点的距离
+			if min+graph[Vx][k]<shortTablePath[k]{
+				shortTablePath[k]=min+graph[Vx][k]
+			}
+		}
+	}
+	for i:=0;i<len(shortTablePath);i++{
+		fmt.Printf("%v\n",shortTablePath[i])
+	}
+}
+func shorter(v,x int,graph [9][9]int,shortTablePath [9]int){
+	if graph[v][x] < MAXWEIGHT { //说明相连，看看更不更新
+		if graph[v][x]+shortTablePath[v] < shortTablePath[x] {
+			shortTablePath[x] = graph[v][x] + shortTablePath[v]
+		}
+		fmt.Printf("更新为%v\n", shortTablePath)
+	}
+}
+func NewGraph()[9][9]int{
+	var graph [9][9]int
+	v0:=[9]int{0,1,5,MAXVEX,MAXVEX,MAXVEX,MAXVEX,MAXVEX,MAXVEX}
+	v1:=[9]int{1,0,3,7,5,MAXVEX,MAXVEX,MAXVEX,MAXVEX}
+	v2:=[9]int{5,3,0,MAXVEX,1,7,MAXVEX,MAXVEX,MAXVEX}
+	v3:=[9]int{MAXVEX,7,MAXVEX,0,2,MAXVEX,3,MAXVEX,MAXVEX}
+	v4:=[9]int{MAXVEX,5,1,2,0,3,6,9,MAXVEX}
+	v5:=[9]int{MAXVEX,MAXVEX,7,MAXVEX,3,0,MAXVEX,5,MAXVEX}
+	v6:=[9]int{MAXVEX,MAXVEX,MAXVEX,3,6,MAXVEX,0,2,7}
+	v7:=[9]int{MAXVEX,MAXVEX,MAXVEX,MAXVEX,9,5,2,0,4}
+	v8:=[9]int{MAXVEX,MAXVEX,MAXVEX,MAXVEX,MAXVEX,MAXVEX,7,4,0}
+	graph[0]=v0
+	graph[1]=v1
+	graph[2]=v2
+	graph[3]=v3
+	graph[4]=v4
+	graph[5]=v5
+	graph[6]=v6
+	graph[7]=v7
+	graph[8]=v8
+	return graph
+}
