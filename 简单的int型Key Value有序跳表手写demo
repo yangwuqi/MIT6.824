@@ -14,6 +14,9 @@ func main(){
 	fmt.Printf("Put key 111 value 22 %v\n",SKL.Put(111,22))
 	fmt.Printf("Put key 55 value 66 %v\n",SKL.Put(55,66))
 	fmt.Printf("Put key 33 value 122 %v\n",SKL.Put(33,122))
+	fmt.Printf("Put key 36 value 223 %v\n",SKL.Put(36,223))
+	fmt.Printf("Put key 136 value 2232 %v\n",SKL.Put(136,2232))
+	fmt.Printf("Put key 6 value 233 %v\n",SKL.Put(6,233))
 	fmt.Printf("find key 11，返回值%d，返回值是-1表示找不到\n",SKL.Find(11))
 	fmt.Printf("find key 33，返回值%d，返回值是-1表示找不到\n",SKL.Find(33))
 	fmt.Printf("find key 1，返回值%d，返回值是-1表示找不到\n",SKL.Find(1))
@@ -127,7 +130,7 @@ func(s *SkipList)Delete(key int)bool{
 		}
 		if temp_before.bottom!=nil{
 			temp=temp_before.bottom//进入下一层，如果循环完了都没找到key，不存在
-			}
+		}
 	}
 return true
 }
