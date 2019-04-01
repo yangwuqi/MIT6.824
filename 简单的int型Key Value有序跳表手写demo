@@ -1,0 +1,133 @@
+package main
+
+import (
+	"math/rand"
+	"fmt"
+)
+
+func main(){
+	var SKL SkipList
+	fmt.Printf("Put key 11 value 33 %v\n",SKL.Put(11,33))
+	fmt.Printf("Put key 5 value 6 %v\n",SKL.Put(5,6))
+	fmt.Printf("Put key 9 value 29 %v\n",SKL.Put(9,29))
+	fmt.Printf("Put key 1 value 8 %v\n",SKL.Put(1,8))
+	fmt.Printf("Put key 111 value 22 %v\n",SKL.Put(111,22))
+	fmt.Printf("Put key 55 value 66 %v\n",SKL.Put(55,66))
+	fmt.Printf("Put key 33 value 122 %v\n",SKL.Put(33,122))
+	fmt.Printf("find key 11，返回值%d，返回值是-1表示找不到\n",SKL.Find(11))
+	fmt.Printf("find key 33，返回值%d，返回值是-1表示找不到\n",SKL.Find(33))
+	fmt.Printf("find key 1，返回值%d，返回值是-1表示找不到\n",SKL.Find(1))
+	fmt.Printf("Delete key 1 %v\n",SKL.Delete(1))
+	fmt.Printf("Find key 1，返回值%v，返回值是-1表示找不到\n",SKL.Find(1))
+}
+
+type ListNode struct {
+	next *ListNode
+	key int
+	value int
+	bottom *ListNode//下一层的对应位置
+}
+
+type SkipList struct {
+	SK []*ListNode//多层的层头
+	Level int//层数
+}
+
+func(s *SkipList)Put(key,value int)bool{
+	if s.Level==0{
+		var headd ListNode
+		var temp ListNode
+		temp.key=key
+		temp.value=value
+		headd.key=-1
+		headd.value=-1
+		headd.next=&temp
+		s.SK=append(s.SK,&headd)
+		s.Level=1
+	}else{//随机产生一个层数，然后在指定的层插入
+		levels:=rand.Intn(s.Level+1)//当为0到s.level-1的时候，不需要新加层，当为s.level的时候，需要新加一层，且s.level变成s.level+1
+		var newkeys []*ListNode//注意，rand.Intn生成是的<=到<的
+		var head ListNode
+		if levels==s.Level{
+			var headafter ListNode
+			head.key=-1
+			head.value=-1
+			headafter.key=key
+			headafter.value=value
+			head.next=&headafter
+			newkeys=append(newkeys,&headafter)
+			head.bottom=s.SK[s.Level-1]
+		}
+		temp:=s.SK[s.Level-1]
+		for i:=s.Level-1;i>-1;i--{//下标最大的默认是第一层
+			temp_before:=temp
+			for temp!=nil&&temp.key<key{
+				temp_before=temp
+				temp=temp.next
+			}//注意nil
+			if temp!=nil&&temp.key==key{//如果出现相同的key，先拒绝之，其它的处理方式以后再写
+				return false
+			}else if temp_before.bottom!=nil{//无论temp是不是nil，temp_before.key肯定小于key，进入下一层链表
+				temp=temp_before.bottom//进入下一层，如果循环完了都没找到key，肯定不存在，false
+			}
+			if temp!=nil&&temp.key==key{
+				continue
+			}
+			if i<=levels{
+				var newkey ListNode
+				newkey.key=key
+				newkey.value=value
+				newkey.next=temp_before.next
+				newkeys=append(newkeys,&newkey)
+				temp_before.next=&newkey
+			}
+		}
+		for i:=0;i<len(newkeys)-1;i++{
+			newkeys[i].bottom=newkeys[i+1]//把相应层的连起来
+		}
+		if levels==s.Level{//如果随机出最大层数，记得更新+1
+			s.Level=s.Level+1
+			s.SK=append(s.SK,&head)
+		}
+	}
+	return true
+}
+
+func(s *SkipList)Find(key int)int{//自顶向下logN级别的查找
+	temp:=s.SK[s.Level-1]
+	for i:=s.Level-1;i>-1;i--{//下标最大的是顶层
+		temp_before:=temp
+		for temp!=nil&&temp.key<key{
+			temp_before=temp
+			temp=temp.next
+		}//注意nil
+		if temp!=nil&&temp.key==key{
+			return temp.value
+		}else{//无论temp是不是nil，temp_before.key肯定小于key，进入下一层链表
+			temp=temp_before.bottom//进入下一层，如果循环完了都没找到key，肯定不存在，false
+		}
+	}
+	return -1//用return -1表示找不到
+}
+
+func(s *SkipList)Delete(key int)bool{
+	temp:=s.SK[s.Level-1]
+	for i:=s.Level-1;i>-1;i--{//下标最大的是顶层
+		temp_before:=temp
+		for temp!=nil&&temp.key<key{//tempbefore的key肯定小于key
+			temp_before=temp
+			temp=temp.next
+		}//注意nil
+		if temp!=nil&&temp.key==key{
+			temp_before.next=temp.next
+		}
+		if temp_before.key==-1&&temp_before.value==-1&&temp_before.next==nil{
+			s.SK=s.SK[:len(s.SK)-1]
+			s.Level=s.Level-1
+		}
+		if temp_before.bottom!=nil{
+			temp=temp_before.bottom//进入下一层，如果循环完了都没找到key，不存在
+			}
+	}
+return true
+}
