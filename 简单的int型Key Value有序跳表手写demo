@@ -7,6 +7,7 @@ import (
 
 func main(){
 	var SKL SkipList
+	fmt.Printf("杨杌亓的小小手写\n")
 	fmt.Printf("Put key 11 value 33 %v\n",SKL.Put(11,33))
 	fmt.Printf("Put key 5 value 6 %v\n",SKL.Put(5,6))
 	fmt.Printf("Put key 9 value 29 %v\n",SKL.Put(9,29))
