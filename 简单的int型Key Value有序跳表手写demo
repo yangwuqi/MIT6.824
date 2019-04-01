@@ -22,6 +22,7 @@ func main(){
 	fmt.Printf("find key 1，返回值%d，返回值是-1表示找不到\n",SKL.Find(1))
 	fmt.Printf("Delete key 1 %v\n",SKL.Delete(1))
 	fmt.Printf("Find key 1，返回值%v，返回值是-1表示找不到\n",SKL.Find(1))
+	fmt.Printf("scan一下，有序输出%v\n",SKL.Scan())
 }
 
 type ListNode struct {
@@ -31,6 +32,10 @@ type ListNode struct {
 	bottom *ListNode//下一层的对应位置
 }
 
+type KV struct {
+	key int
+	value int
+}
 type SkipList struct {
 	SK []*ListNode//多层的层头
 	Level int//层数
@@ -132,5 +137,15 @@ func(s *SkipList)Delete(key int)bool{
 			temp=temp_before.bottom//进入下一层，如果循环完了都没找到key，不存在
 		}
 	}
-return true
+	return true
+}
+
+func(s *SkipList)Scan()[]KV{
+	var result []KV
+	head:=s.SK[0].next
+	for head!=nil{
+		result=append(result,KV{head.key,head.value})
+		head=head.next
+	}
+	return result
 }
